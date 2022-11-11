@@ -93,10 +93,20 @@ func DropString(num int, what string) string {
 	return what[num:]
 }
 
-// Any returns true if all any element in the list matches the given value.
+// Any returns true if any element in the list matches the given value.
 func Any[T comparable](val T, arr []T) bool {
 	for _, v := range arr {
 		if val == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Anyf returns true if any elemens in the list returns true when passed to foo.
+func Anyf[T any](foo func(v T) bool, arr []T) bool {
+	for _, v := range arr {
+		if foo(v) {
 			return true
 		}
 	}
@@ -107,6 +117,16 @@ func Any[T comparable](val T, arr []T) bool {
 func All[T comparable](val T, arr []T) bool {
 	for _, v := range arr {
 		if val != v {
+			return false
+		}
+	}
+	return true
+}
+
+// Allf returns true if all elements in the array return true when passed to foo.
+func Allf[T any](foo func(v T) bool, arr []T) bool {
+	for _, v := range arr {
+		if !foo(v) {
 			return false
 		}
 	}
