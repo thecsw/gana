@@ -18,7 +18,7 @@ func Max[T constraints.Ordered](a, b T) T {
 	return b
 }
 
-// First returns the first elemnt of the given array, zero value otherwise.
+// First returns the first element of the given array, zero value otherwise.
 func First[T any](x []T) T {
 	if len(x) == 0 {
 		return ZeroValue[T]()
