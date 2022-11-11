@@ -141,3 +141,8 @@ func Repeat[T any](val T, size int) []T {
 	}
 	return arr
 }
+
+// GetPointer returns the pointer of a given lhs.
+func GetPointer[T any](val T) *T {
+	return &val
+}
