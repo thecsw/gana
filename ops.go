@@ -75,7 +75,7 @@ func Tail[T any](num int, arr []T) []T {
 	if len(arr) < num {
 		return arr
 	}
-	return arr[len(arr)-num : len(arr)-1]
+	return arr[len(arr)-num:]
 }
 
 // Drop allocates a new slice, with the first `num` elements dropped.
