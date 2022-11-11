@@ -77,12 +77,17 @@ func Tail[T any](num int, arr []T) []T {
 	return arr[len(arr)-num : len(arr)-1]
 }
 
-// Drop drops up to the first `num` elements.
+// Drop allocates a new slice, with the first `num` elements dropped.
 func Drop[T any](num int, arr []T) []T {
 	if len(arr) < num {
 		return []T{}
 	}
-	return arr[num:]
+
+	newLen := len(arr) - num
+	slice := make([]T, 0, newLen)
+	slice = append(slice, arr[num:]...)
+
+	return slice
 }
 
 // DropString drops up to the first `num` runes of a string.
