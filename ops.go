@@ -90,12 +90,17 @@ func Drop[T any](num int, arr []T) []T {
 	return slice
 }
 
-// DropString drops up to the first `num` runes of a string.
+// DropString allocates a new string, with the first `num` bytes of a string dropped.
 func DropString(num int, what string) string {
 	if len(what) < num {
 		return ""
 	}
-	return what[num:]
+
+	newLen := len(what) - num
+	buffer := make([]byte, 0, newLen)
+	buffer = append(buffer, what[num:]...)
+
+	return string(buffer)
 }
 
 // Any returns true if any element in the list matches the given value.
