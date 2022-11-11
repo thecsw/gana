@@ -103,6 +103,14 @@ func DropString(num int, what string) string {
 	return string(buffer)
 }
 
+// Skip skips the first `num` elements.
+func Skip[T any](num int, arr []T) []T {
+	if len(arr) < num {
+		return []T{}
+	}
+	return arr[num:]
+}
+
 // Any returns true if any element in the list matches the given value.
 func Any[T comparable](val T, arr []T) bool {
 	for _, v := range arr {
