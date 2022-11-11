@@ -111,6 +111,14 @@ func Skip[T any](num int, arr []T) []T {
 	return arr[num:]
 }
 
+// SkipString skips the first `num` bytes of a string
+func SkipString(num int, what string) string {
+	if len(what) < num {
+		return ""
+	}
+	return what[num:]
+}
+
 // Any returns true if any element in the list matches the given value.
 func Any[T comparable](val T, arr []T) bool {
 	for _, v := range arr {
