@@ -18,20 +18,21 @@ func Max[T constraints.Ordered](a, b T) T {
 	return b
 }
 
-// First returns the first elemnt of the given array, zero value otherwise.
+// First returns the first element of the given array, zero value otherwise.
 func First[T any](x []T) T {
-	if len(x) > 0 {
-		return x[0]
+	if len(x) == 0 {
+		return ZeroValue[T]()
 	}
-	return ZeroValue[T]()
+	return x[0]
 }
 
 // Last returns the last element of the given array, zero value otherwise.
 func Last[T any](x []T) T {
-	if len(x) > 0 {
-		return x[len(x)-1]
+	l := len(x)
+	if l == 0 {
+		return ZeroValue[T]()
 	}
-	return ZeroValue[T]()
+	return x[l-1]
 }
 
 // ZeroValue returns the zero value of any type.
