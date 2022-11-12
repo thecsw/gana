@@ -43,9 +43,9 @@ func ZeroValue[T any]() T {
 
 // Map calls the function on every array element and returns results in list.
 func Map[T, S any](f func(T) S, arr []T) []S {
-	what := make([]S, 0, len(arr))
-	for _, v := range arr {
-		what = append(what, f(v))
+	what := make([]S, len(arr))
+	for i, v := range arr {
+		what[i] = f(v)
 	}
 	return what
 }
@@ -136,9 +136,9 @@ func Allf[T any](foo func(v T) bool, arr []T) bool {
 
 // Repeat creates a list of given size consisting of the same given value.
 func Repeat[T any](val T, size int) []T {
-	arr := make([]T, 0, size)
-	for i := 0; i < size; i++ {
-		arr = append(arr, val)
+	arr := make([]T, size)
+	for i := range arr {
+		arr[i] = val
 	}
 	return arr
 }
