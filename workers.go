@@ -1,4 +1,4 @@
-package echidna
+package gana
 
 import "sync"
 

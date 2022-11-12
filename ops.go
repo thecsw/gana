@@ -1,4 +1,4 @@
-package echidna
+package gana
 
 import "golang.org/x/exp/constraints"
 
