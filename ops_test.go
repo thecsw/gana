@@ -30,6 +30,30 @@ func TestMax(t *testing.T) {
 	assert.Equal(t, Max("a", "a"), "a", "a, a")
 }
 
+func TestMinv(t *testing.T) {
+	assert.Equal(t, Minv(1, 2, 3), 1, "1, 2, 3")
+	assert.Equal(t, Minv(2, 1, 3), 1, "2, 1, 3")
+	assert.Equal(t, Minv(3, 2, 1), 1, "3, 2, 1")
+	assert.Equal(t, Minv(1.0, 2.0, 3.0), 1.0, "1.0, 2.0, 3.0")
+	assert.Equal(t, Minv(2.0, 1.0, 3.0), 1.0, "2.0, 1.0, 3.0")
+	assert.Equal(t, Minv(3.0, 2.0, 1.0), 1.0, "3.0, 2.0, 1.0")
+	assert.Equal(t, Minv("a", "b", "c"), "a", `"a", "b", "c"`)
+	assert.Equal(t, Minv("b", "a", "c"), "a", `"b", "a", "c"`)
+	assert.Equal(t, Minv("c", "b", "a"), "a", `"c", "b", "a"`)
+}
+
+func TestMaxv(t *testing.T) {
+	assert.Equal(t, Maxv(1, 2, 3), 3, "1, 2, 3")
+	assert.Equal(t, Maxv(2, 1, 3), 3, "2, 1, 3")
+	assert.Equal(t, Maxv(3, 2, 1), 3, "3, 2, 1")
+	assert.Equal(t, Maxv(1.0, 2.0, 3.0), 3.0, "1.0, 2.0, 3.0")
+	assert.Equal(t, Maxv(2.0, 1.0, 3.0), 3.0, "2.0, 1.0, 3.0")
+	assert.Equal(t, Maxv(3.0, 2.0, 1.0), 3.0, "3.0, 2.0, 1.0")
+	assert.Equal(t, Maxv("a", "b", "c"), "c", `"a", "b", "c"`)
+	assert.Equal(t, Maxv("b", "a", "c"), "c", `"b", "a", "c"`)
+	assert.Equal(t, Maxv("c", "b", "a"), "c", `"c", "b", "a"`)
+}
+
 func TestFirst(t *testing.T) {
 	assert.Equal(t, First([]int{1, 2, 3}), 1, "1, 2, 3")
 	assert.Equal(t, First([]int{}), 0, "[]int{}")
