@@ -1,6 +1,8 @@
 package gana
 
 import (
+	"strings"
+
 	"golang.org/x/exp/constraints"
 )
 
@@ -99,11 +101,10 @@ func DropString(num int, what string) string {
 		return ""
 	}
 
-	newLen := len(what) - num
-	buffer := make([]byte, 0, newLen)
-	buffer = append(buffer, what[num:]...)
+	builder := strings.Builder{}
+	builder.WriteString(what[num:])
 
-	return string(buffer)
+	return builder.String()
 }
 
 // DropRunes allocates a new string, with the first `num` runes of a string dropped.
