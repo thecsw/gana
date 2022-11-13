@@ -2,24 +2,42 @@ name: Go
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
 
 jobs:
-
-  build:
+  
+  setup:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.18
+  gofmt:
+    needs: setup
+    steps:
+      - name: Gofmt
+        run: not gofmt -l . | grep .
 
-    - name: Build
-      run: go build -v ./...
+  build:
+    needs: setup
+    steps:
+      - name: Build
+        run: go build -v ./...
 
-    - name: Test
-      run: go test -v ./...
+  test:
+    needs: build
+    steps:
+      - name: Test
+        run: go test -v ./...
+
+  cover:
+    needs: build
+    steps:
+      - name: Install cover
+        run: go install golang.org/x/tools/cmd/cover@latest
+      - name: cover
+        run: go tool cover -func=c.out
