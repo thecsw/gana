@@ -125,7 +125,7 @@ func DropRunes(num int, what string) string {
 	return ""
 }
 
-// Skip skips the first `num` elements.
+// Skips skips the first `num` elements by slicing (underlying array unaffected).
 func Skip[T any](num int, arr []T) []T {
 	if len(arr) < num {
 		return []T{}
@@ -133,7 +133,7 @@ func Skip[T any](num int, arr []T) []T {
 	return arr[num:]
 }
 
-// SkipString skips the first `num` bytes of a string
+// SkipString skips the first `num` bytes of a string by slicing (underlying array unaffected).
 func SkipString(num int, what string) string {
 	if len(what) < num {
 		return ""
@@ -141,7 +141,7 @@ func SkipString(num int, what string) string {
 	return what[num:]
 }
 
-// SkipRunes skips the first `num` runes of a string.
+// SkipRunes skips the first `num` runes of a string by slicing (underlying array unaffected).
 func SkipRunes(num int, what string) string {
 	if len(what) < num {
 		return ""
