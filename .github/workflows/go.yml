@@ -20,7 +20,7 @@ jobs:
         run: sudo apt install -y moreutils
           
       - name: Gofmt
-        run: not gofmt -l . | grep .
+        run: if [[ $(gofmt -l . | head -c1 | wc -c) -ne 0 ]]; then false; fi
 
       - name: Build
         run: go build -v ./...
