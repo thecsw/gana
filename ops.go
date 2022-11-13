@@ -89,8 +89,8 @@ func Drop[T any](num int, arr []T) []T {
 	}
 
 	newLen := len(arr) - num
-	slice := make([]T, 0, newLen)
-	slice = append(slice, arr[num:]...)
+	slice := make([]T, newLen)
+	copy(slice, arr[num:])
 
 	return slice
 }
