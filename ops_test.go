@@ -99,15 +99,6 @@ func TestDrop(t *testing.T) {
 	assert.Equal(t, Drop(2, []string{}), []string{}, "[]string{}")
 }
 
-func TestDropString(t *testing.T) {
-	assert.Equal(t, DropString(1, "abc"), "bc", `"abc"[1:]`)
-	assert.Equal(t, DropString(2, "abc"), "c", `"abc"[2:]`)
-	assert.Equal(t, DropString(3, "abc"), "", `"abc"[3:]`)
-	assert.Equal(t, DropString(4, "abc"), "", `"abc"[4:]`)
-	assert.Equal(t, DropString(0, "abc"), "abc", `"abc"[0:]`)
-	assert.Equal(t, DropString(1, ""), "", `""[1:]`)
-}
-
 func TestSkip(t *testing.T) {
 	assert.Equal(t, Skip(2, []int{1, 2, 3}), []int{3}, "1, 2, 3")
 	assert.Equal(t, Skip(2, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
@@ -115,15 +106,6 @@ func TestSkip(t *testing.T) {
 	assert.Equal(t, Skip(2, []int{}), []int{}, "[]int{}")
 	assert.Equal(t, Skip(2, []float64{}), []float64{}, "[]float64{}")
 	assert.Equal(t, Skip(2, []string{}), []string{}, "[]string{}")
-}
-
-func TestSkipString(t *testing.T) {
-	assert.Equal(t, SkipString(1, "abc"), "bc", `"abc"[1:]`)
-	assert.Equal(t, SkipString(2, "abc"), "c", `"abc"[2:]`)
-	assert.Equal(t, SkipString(3, "abc"), "", `"abc"[3:]`)
-	assert.Equal(t, SkipString(4, "abc"), "", `"abc"[4:]`)
-	assert.Equal(t, SkipString(0, "abc"), "abc", `"abc"[0:]`)
-	assert.Equal(t, SkipString(1, ""), "", `""[1:]`)
 }
 
 func TestAny(t *testing.T) {

@@ -1,10 +1,6 @@
 package gana
 
-import (
-	"strings"
-
-	"golang.org/x/exp/constraints"
-)
+import "golang.org/x/exp/constraints"
 
 // Min returns the minimum of two numbers.
 func Min[T constraints.Ordered](a, b T) T {
@@ -95,33 +91,12 @@ func Drop[T any](num uint, arr []T) []T {
 	return slice
 }
 
-// DropString allocates a new string, with the first `num` bytes of a string dropped.
-func DropString(num uint, what string) string {
-	l := uint(len(what))
-	if l < num {
-		return ""
-	}
-
-	builder := strings.Builder{}
-	builder.WriteString(what[num:])
-
-	return builder.String()
-}
-
 // Skips skips the first `num` elements by slicing (underlying array unaffected).
 func Skip[T any](num uint, arr []T) []T {
 	if uint(len(arr)) < num {
 		return arr[:0]
 	}
 	return arr[num:]
-}
-
-// SkipString skips the first `num` bytes of a string by slicing (underlying array unaffected).
-func SkipString(num uint, what string) string {
-	if uint(len(what)) < num {
-		return what[:0]
-	}
-	return what[num:]
 }
 
 // Any returns true if any element in the list matches the given value.
