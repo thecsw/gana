@@ -29,28 +29,12 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v -json ./... > TestResults-${{ matrix.go-version }}.json
+        run: go test -race -covermode atomic -coverprofile=covprofile ./...
 
-      - name: Upload Go test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: Go-tests-${{ matrix.go-version }}
-          path: TestResults-${{ matrix.go-version }}.json
-        
-      - name: Install cover
-        run: go install golang.org/x/tools/cmd/cover@latest
+      - name: Install goveralls
+        run: go install github.com/mattn/goveralls@latest
 
-      - name: Run cover
-        run: go test -coverprofile=c.out
-        
-      - name: Diplay cover
-        run: go tool cover -func=c.out
-
-      - name: Generate html cover
-        run: go tool cover -html=c.out -o Coverage-${{ matrix.go-version }}.html
-
-      - name: Upload Go cover results
-        uses: actions/upload-artifact@v3
-        with:
-          name: Go-cover-${{ matrix.go-version }}
-          path: Coverage-${{ matrix.go-version }}.html
+      - name: Send coverage
+        env:
+          COVERALLS_TOKEN: ${{ secrets.COVERALL_TOKEN }}
+        run: goveralls -coverprofile=covprofile -service=github
