@@ -4,8 +4,7 @@ import "strings"
 
 // DropString allocates a new string, with the first `num` bytes of a string dropped.
 func DropString(num uint, what string) string {
-	l := uint(len(what))
-	if l < num {
+	if uint(len(what)) < num {
 		return ""
 	}
 
