@@ -79,45 +79,24 @@ func Tail[T any](num int, arr []T) []T {
 }
 
 // Drop allocates a new slice, with the first `num` elements dropped.
-func Drop[T any](num int, arr []T) []T {
-	if len(arr) < num {
+func Drop[T any, U constraints.Unsigned](num U, arr []T) []T {
+	l := U(len(arr))
+	if l < num {
 		return []T{}
 	}
 
-	newLen := len(arr) - num
-	slice := make([]T, 0, newLen)
-	slice = append(slice, arr[num:]...)
+	slice := make([]T, l-num)
+	copy(slice, arr[num:])
 
 	return slice
 }
 
-// DropString allocates a new string, with the first `num` bytes of a string dropped.
-func DropString(num int, what string) string {
-	if len(what) < num {
-		return ""
-	}
-
-	newLen := len(what) - num
-	buffer := make([]byte, 0, newLen)
-	buffer = append(buffer, what[num:]...)
-
-	return string(buffer)
-}
-
-// Skip skips the first `num` elements.
-func Skip[T any](num int, arr []T) []T {
-	if len(arr) < num {
-		return []T{}
+// Skips skips the first `num` elements by slicing (underlying array unaffected).
+func Skip[T any, U constraints.Unsigned](num U, arr []T) []T {
+	if U(len(arr)) < num {
+		return arr[:0]
 	}
 	return arr[num:]
-}
-
-// SkipString skips the first `num` bytes of a string
-func SkipString(num int, what string) string {
-	if len(what) < num {
-		return ""
-	}
-	return what[num:]
 }
 
 // Any returns true if any element in the list matches the given value.
