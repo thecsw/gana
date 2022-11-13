@@ -1,6 +1,8 @@
 package gana
 
-import "golang.org/x/exp/constraints"
+import (
+	"golang.org/x/exp/constraints"
+)
 
 // Min returns the minimum of two numbers.
 func Min[T constraints.Ordered](a, b T) T {
@@ -104,6 +106,24 @@ func DropString(num int, what string) string {
 	return string(buffer)
 }
 
+// DropRunes allocates a new string, with the first `num` runes of a string dropped.
+func DropRunes(num int, what string) string {
+	if len(what) < num {
+		return ""
+	}
+	if num < 0 {
+		return what
+	}
+	for i := range what {
+		if num == 0 {
+			return DropString(i, what)
+		}
+		num--
+	}
+	// Unreachable
+	return ""
+}
+
 // Skip skips the first `num` elements.
 func Skip[T any](num int, arr []T) []T {
 	if len(arr) < num {
@@ -118,6 +138,24 @@ func SkipString(num int, what string) string {
 		return ""
 	}
 	return what[num:]
+}
+
+// SkipRunes skips the first `num` runes of a string.
+func SkipRunes(num int, what string) string {
+	if len(what) < num {
+		return ""
+	}
+	if num < 0 {
+		return what
+	}
+	for i := range what {
+		if num == 0 {
+			return SkipString(i, what)
+		}
+		num--
+	}
+	// Unreachable
+	return ""
 }
 
 // Any returns true if any element in the list matches the given value.
