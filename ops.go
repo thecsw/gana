@@ -83,21 +83,22 @@ func Tail[T any](num int, arr []T) []T {
 }
 
 // Drop allocates a new slice, with the first `num` elements dropped.
-func Drop[T any](num int, arr []T) []T {
-	if len(arr) < num {
+func Drop[T any](num uint, arr []T) []T {
+	l := uint(len(arr))
+	if l < num {
 		return []T{}
 	}
 
-	newLen := len(arr) - num
-	slice := make([]T, newLen)
+	slice := make([]T, l-num)
 	copy(slice, arr[num:])
 
 	return slice
 }
 
 // DropString allocates a new string, with the first `num` bytes of a string dropped.
-func DropString(num int, what string) string {
-	if len(what) < num {
+func DropString(num uint, what string) string {
+	l := uint(len(what))
+	if l < num {
 		return ""
 	}
 
@@ -108,16 +109,16 @@ func DropString(num int, what string) string {
 }
 
 // Skips skips the first `num` elements by slicing (underlying array unaffected).
-func Skip[T any](num int, arr []T) []T {
-	if len(arr) < num {
+func Skip[T any](num uint, arr []T) []T {
+	if uint(len(arr)) < num {
 		return arr[:0]
 	}
 	return arr[num:]
 }
 
 // SkipString skips the first `num` bytes of a string by slicing (underlying array unaffected).
-func SkipString(num int, what string) string {
-	if len(what) < num {
+func SkipString(num uint, what string) string {
+	if uint(len(what)) < num {
 		return what[:0]
 	}
 	return what[num:]

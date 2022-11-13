@@ -1,16 +1,13 @@
 package gana
 
 // SkipRunes skips the first `num` runes of a string by slicing (underlying array unaffected).
-func SkipRunes(num int, what string) string {
-	if len(what) < num {
+func SkipRunes(num uint, what string) string {
+	if uint(len(what)) < num {
 		return ""
-	}
-	if num < 0 {
-		return what
 	}
 	for i := range what {
 		if num == 0 {
-			return SkipString(i, what)
+			return SkipString(uint(i), what)
 		}
 		num--
 	}
@@ -19,16 +16,13 @@ func SkipRunes(num int, what string) string {
 }
 
 // DropRunes allocates a new string, with the first `num` runes of a string dropped.
-func DropRunes(num int, what string) string {
-	if len(what) < num {
+func DropRunes(num uint, what string) string {
+	if uint(len(what)) < num {
 		return ""
-	}
-	if num < 0 {
-		return what
 	}
 	for i := range what {
 		if num == 0 {
-			return DropString(i, what)
+			return DropString(uint(i), what)
 		}
 		num--
 	}
