@@ -19,9 +19,6 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Install moreutils
-        run: sudo apt install -y moreutils
-          
       - name: Gofmt
         run: if [[ $(gofmt -l . | head -c1 | wc -c) -ne 0 ]]; then false; fi
 
