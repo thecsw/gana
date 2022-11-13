@@ -107,24 +107,6 @@ func DropString(num int, what string) string {
 	return builder.String()
 }
 
-// DropRunes allocates a new string, with the first `num` runes of a string dropped.
-func DropRunes(num int, what string) string {
-	if len(what) < num {
-		return ""
-	}
-	if num < 0 {
-		return what
-	}
-	for i := range what {
-		if num == 0 {
-			return DropString(i, what)
-		}
-		num--
-	}
-	// Unreachable
-	return ""
-}
-
 // Skips skips the first `num` elements by slicing (underlying array unaffected).
 func Skip[T any](num int, arr []T) []T {
 	if len(arr) < num {
@@ -139,24 +121,6 @@ func SkipString(num int, what string) string {
 		return what[:0]
 	}
 	return what[num:]
-}
-
-// SkipRunes skips the first `num` runes of a string by slicing (underlying array unaffected).
-func SkipRunes(num int, what string) string {
-	if len(what) < num {
-		return ""
-	}
-	if num < 0 {
-		return what
-	}
-	for i := range what {
-		if num == 0 {
-			return SkipString(i, what)
-		}
-		num--
-	}
-	// Unreachable
-	return ""
 }
 
 // Any returns true if any element in the list matches the given value.
