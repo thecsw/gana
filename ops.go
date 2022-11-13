@@ -79,8 +79,8 @@ func Tail[T any](num int, arr []T) []T {
 }
 
 // Drop allocates a new slice, with the first `num` elements dropped.
-func Drop[T any](num uint, arr []T) []T {
-	l := uint(len(arr))
+func Drop[T any, U constraints.Unsigned](num U, arr []T) []T {
+	l := U(len(arr))
 	if l < num {
 		return []T{}
 	}
@@ -92,8 +92,8 @@ func Drop[T any](num uint, arr []T) []T {
 }
 
 // Skips skips the first `num` elements by slicing (underlying array unaffected).
-func Skip[T any](num uint, arr []T) []T {
-	if uint(len(arr)) < num {
+func Skip[T any, U constraints.Unsigned](num U, arr []T) []T {
+	if U(len(arr)) < num {
 		return arr[:0]
 	}
 	return arr[num:]

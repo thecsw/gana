@@ -1,10 +1,14 @@
 package gana
 
-import "strings"
+import (
+	"strings"
+
+	"golang.org/x/exp/constraints"
+)
 
 // DropString allocates a new string, with the first `num` bytes of a string dropped.
-func DropString(num uint, what string) string {
-	if uint(len(what)) < num {
+func DropString[T constraints.Unsigned](num T, what string) string {
+	if T(len(what)) < num {
 		return ""
 	}
 
@@ -15,8 +19,8 @@ func DropString(num uint, what string) string {
 }
 
 // SkipString skips the first `num` bytes of a string by slicing (underlying array unaffected).
-func SkipString(num uint, what string) string {
-	if uint(len(what)) < num {
+func SkipString[T constraints.Unsigned](num T, what string) string {
+	if T(len(what)) < num {
 		return what[:0]
 	}
 	return what[num:]

@@ -91,21 +91,21 @@ func TestTail(t *testing.T) {
 }
 
 func TestDrop(t *testing.T) {
-	assert.Equal(t, Drop(2, []int{1, 2, 3}), []int{3}, "1, 2, 3")
-	assert.Equal(t, Drop(2, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Drop(2, []string{"a", "b", "c"}), []string{"c"}, `"a", "b", "c"`)
-	assert.Equal(t, Drop(2, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Drop(2, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Drop(2, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, Drop[int, uint](2, []int{1, 2, 3}), []int{3}, "1, 2, 3")
+	assert.Equal(t, Drop[float64, uint](2, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
+	assert.Equal(t, Drop[string, uint](2, []string{"a", "b", "c"}), []string{"c"}, `"a", "b", "c"`)
+	assert.Equal(t, Drop[int, uint](2, []int{}), []int{}, "[]int{}")
+	assert.Equal(t, Drop[float64, uint](2, []float64{}), []float64{}, "[]float64{}")
+	assert.Equal(t, Drop[string, uint](2, []string{}), []string{}, "[]string{}")
 }
 
 func TestSkip(t *testing.T) {
-	assert.Equal(t, Skip(2, []int{1, 2, 3}), []int{3}, "1, 2, 3")
-	assert.Equal(t, Skip(2, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Skip(2, []string{"a", "b", "c"}), []string{"c"}, `"a", "b", "c"`)
-	assert.Equal(t, Skip(2, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Skip(2, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Skip(2, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, Skip[int, uint](2, []int{1, 2, 3}), []int{3}, "1, 2, 3")
+	assert.Equal(t, Skip[float64, uint](2, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
+	assert.Equal(t, Skip[string, uint](2, []string{"a", "b", "c"}), []string{"c"}, `"a", "b", "c"`)
+	assert.Equal(t, Skip[int, uint](2, []int{}), []int{}, "[]int{}")
+	assert.Equal(t, Skip[float64, uint](2, []float64{}), []float64{}, "[]float64{}")
+	assert.Equal(t, Skip[string, uint](2, []string{}), []string{}, "[]string{}")
 }
 
 func TestAny(t *testing.T) {

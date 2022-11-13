@@ -1,13 +1,15 @@
 package gana
 
+import "golang.org/x/exp/constraints"
+
 // SkipRunes skips the first `num` runes of a string by slicing (underlying array unaffected).
-func SkipRunes(num uint, what string) string {
-	if uint(len(what)) < num {
+func SkipRunes[T constraints.Unsigned](num T, what string) string {
+	if T(len(what)) < num {
 		return ""
 	}
 	for i := range what {
 		if num == 0 {
-			return SkipString(uint(i), what)
+			return SkipString(T(i), what)
 		}
 		num--
 	}
@@ -16,13 +18,13 @@ func SkipRunes(num uint, what string) string {
 }
 
 // DropRunes allocates a new string, with the first `num` runes of a string dropped.
-func DropRunes(num uint, what string) string {
-	if uint(len(what)) < num {
+func DropRunes[T constraints.Unsigned](num T, what string) string {
+	if T(len(what)) < num {
 		return ""
 	}
 	for i := range what {
 		if num == 0 {
-			return DropString(uint(i), what)
+			return DropString(T(i), what)
 		}
 		num--
 	}
