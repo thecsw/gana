@@ -48,6 +48,25 @@ func Maxv[T constraints.Ordered](vals ...T) T {
 	return max
 }
 
+// MinMaxv returns the minimum and maximum of the given values, or if no values are given, two zero value of the type.
+func MinMaxv[T constraints.Ordered](vals ...T) (T, T) {
+	if len(vals) == 0 {
+		return ZeroValue[T](), ZeroValue[T]()
+	}
+
+	min := vals[0]
+	max := vals[0]
+	for _, v := range vals {
+		if v < min {
+			min = v
+		}
+		if v > max {
+			max = v
+		}
+	}
+	return min, max
+}
+
 // First returns the first element of the given array, zero value otherwise.
 func First[T any](x []T) T {
 	if len(x) == 0 {
