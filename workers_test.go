@@ -45,7 +45,7 @@ func TestGenericWorkers(t *testing.T) {
 	}
 	toint := func(a string) int {
 		f, err := strconv.ParseInt(a, 10, 64)
-		assert.Nil(t, err, fmt.Sprintf("parse float of %s", a))
+		assert.Nil(t, err, fmt.Sprintf("parse int of %s", a))
 		return int(f)
 	}
 	squares := GenericWorkers(inputs, sq, 10, 20)
