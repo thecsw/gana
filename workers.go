@@ -2,9 +2,10 @@ package gana
 
 import "sync"
 
-// GenericWorkers spins up given number of genericWorker routines
-// that all perform work and it itself returns the outputs channel
-// with the buffer defined by cz.
+// GenericWorkers spins up given number of `genericWorker` routines
+// that all perform `work` and it itself returns the `outputs` channel
+// with the buffer defined by `cz`; do close the `inputs` channel when
+// there is no more work left for workers to safely exit their goroutines.
 func GenericWorkers[A, B any](
 	inputs <-chan A,
 	work func(A) B,
@@ -24,9 +25,10 @@ func GenericWorkers[A, B any](
 	return outputs
 }
 
-// GenericWorker gets values from inputs channel, performs work
-// on the value and puts it into the outputs channel, while also
-// marking itself as Done in WaitGroup when channel is closed.
+// GenericWorker gets values from `inputs channel`, performs `work`
+// on the value and puts it into the `outputs` channel, while also
+// marking itself as `Done` in `WaitGroup` when `inputs` channel
+// is closed.
 func GenericWorker[A, B any](
 	inputs <-chan A,
 	outputs chan<- B,
