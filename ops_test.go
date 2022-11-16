@@ -59,7 +59,7 @@ func TestMaxv(t *testing.T) {
 func TestMinMaxv(t *testing.T) {
 	x, z := MinMaxv[int]()
 	assert.Equal(t, x, ZeroValue[int](), "empty MinMaxv, min")
-	assert.Equal(t, x, ZeroValue[int](), "empty MinMaxv, max")
+	assert.Equal(t, z, ZeroValue[int](), "empty MinMaxv, max")
 	a, b := MinMaxv(1, 2, 3)
 	assert.Equal(t, a, 1, "1, 2, 3")
 	assert.Equal(t, b, 3, "1, 2, 3")
