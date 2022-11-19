@@ -7,7 +7,7 @@ type Tuple[A, B any] struct {
 }
 
 // Unpack returns the tuple's elements.
-func (t *Tuple[A, B]) Unpack() (A, B) {
+func (t Tuple[A, B]) Unpack() (A, B) {
 	return t.First, t.Second
 }
 

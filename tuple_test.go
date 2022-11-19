@@ -7,7 +7,7 @@ import (
 )
 
 func TestUnpack(t *testing.T) {
-	a, b := (&Tuple[int, int]{1, 2}).Unpack()
+	a, b := Tuple[int, int]{1, 2}.Unpack()
 	assert.Equal(t, 1, a)
 	assert.Equal(t, 2, b)
 }
