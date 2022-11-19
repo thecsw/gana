@@ -8,9 +8,8 @@ type SkipT[T any] struct {
 }
 
 type SkipWhileT[T any] struct {
-	iter    Iter[T]
-	pred    func(T) bool
-	skipped bool
+	iter Iter[T]
+	pred func(T) bool
 }
 
 // Make sure that SkipT and SkipWhileT implements the Iter interface.
@@ -35,19 +34,17 @@ func (s *SkipT[T]) Next() (T, bool) {
 
 // SkipWhile returns an iterator that skips the first group of elements that satisfy the predicate.
 func SkipWhile[T any](iter Iter[T], pred func(T) bool) Iter[T] {
-	return &SkipWhileT[T]{iter, pred, false}
+	return &SkipWhileT[T]{iter, pred}
 }
 
 func (s *SkipWhileT[T]) Next() (T, bool) {
-	for !s.skipped {
-		e, ok := s.iter.Next()
-		if !ok {
-			return gana.ZeroValue[T](), false
-		}
-		if !s.pred(e) {
-			s.skipped = true
-			return e, true
-		}
+	e, ok := s.iter.Next()
+	for ok && s.pred(e) {
+		e, ok = s.iter.Next()
 	}
-	return s.iter.Next()
+	if !ok {
+		return gana.ZeroValue[T](), false
+	}
+	s.pred = func(T) bool { return false }
+	return e, true
 }
