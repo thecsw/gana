@@ -17,6 +17,10 @@ func TestFlatten(t *testing.T) {
 	assert.True(t, ok)
 	result = Collect(Flatten(iter))
 	assert.Equal(t, []int{3, 4}, result)
+
+	iter = EmptyIter[[]int]()
+	result = Collect(Flatten(iter))
+	assert.Equal(t, []int{}, result)
 }
 
 func TestFlattenIters(t *testing.T) {
