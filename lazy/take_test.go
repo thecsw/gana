@@ -71,4 +71,8 @@ func TestTakeWhile(t *testing.T) {
 	assert.True(t, ok)
 	result = Collect(TakeWhile(iter, func(s string) bool { return s == "b" }))
 	assert.Equal(t, []string{"b"}, result)
+
+	iter = NewIter([]string{})
+	result = Collect(TakeWhile(iter, func(s string) bool { return s == "b" }))
+	assert.Equal(t, []string{}, result)
 }
