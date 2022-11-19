@@ -148,6 +148,16 @@ func Skip[T any, U constraints.Unsigned](num U, arr []T) []T {
 	return arr[num:]
 }
 
+// Zip returns a list of tuples, where the i-th tuple contains the i-th element from each of the argument lists.
+func Zip[T, U any](a []T, b []U) []Tuple[T, U] {
+	l := Min(len(a), len(b))
+	what := make([]Tuple[T, U], l)
+	for i := 0; i < l; i++ {
+		what[i] = NewTuple(a[i], b[i])
+	}
+	return what
+}
+
 // Any returns true if any element in the list matches the given value.
 func Any[T comparable](val T, arr []T) bool {
 	for _, v := range arr {
