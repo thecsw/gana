@@ -24,11 +24,11 @@ func TestIter(t *testing.T) {
 }
 
 func TestEmptyIter(t *testing.T) {
-	iter := NewIter([]string{})
+	iter := EmptyIter[int]()
 	s, ok := iter.Next()
-	assert.Equal(t, gana.ZeroValue[string](), s)
+	assert.Equal(t, gana.ZeroValue[int](), s)
 	assert.False(t, ok)
 	s, ok = iter.Next()
-	assert.Equal(t, gana.ZeroValue[string](), s)
+	assert.Equal(t, gana.ZeroValue[int](), s)
 	assert.False(t, ok)
 }
