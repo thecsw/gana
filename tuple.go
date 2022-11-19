@@ -6,6 +6,11 @@ type Tuple[A, B any] struct {
 	Second B
 }
 
+// NewTuple returns a new tuple.
+func NewTuple[A, B any](first A, second B) Tuple[A, B] {
+	return Tuple[A, B]{First: first, Second: second}
+}
+
 // Unpack returns the tuple's elements.
 func (t Tuple[A, B]) Unpack() (A, B) {
 	return t.First, t.Second
