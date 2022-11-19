@@ -12,6 +12,6 @@ func (t Tuple[A, B]) Unpack() (A, B) {
 }
 
 // UnpackRef returns references to the tuple's elements.
-func (t *Tuple[A, B]) UnpackRef() (*A, *B) {
+func (t Tuple[A, B]) UnpackRef() (*A, *B) {
 	return &t.First, &t.Second
 }

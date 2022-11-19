@@ -13,7 +13,7 @@ func TestUnpack(t *testing.T) {
 }
 
 func TestUnpackRef(t *testing.T) {
-	a, b := (&Tuple[int, int]{1, 2}).UnpackRef()
+	a, b := Tuple[int, int]{1, 2}.UnpackRef()
 	assert.Equal(t, 1, *a)
 	assert.Equal(t, 2, *b)
 }
