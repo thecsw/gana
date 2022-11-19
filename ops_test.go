@@ -167,6 +167,13 @@ func TestSkip(t *testing.T) {
 	assert.Equal(t, Skip[string, uint](2, []string{}), []string{}, "[]string{}")
 }
 
+func TestZip(t *testing.T) {
+	assert.Equal(t, Zip([]int{1, 2, 3}, []int{4, 5, 6}), []Tuple[int, int]{NewTuple(1, 4), NewTuple(2, 5), NewTuple(3, 6)}, "1, 2, 3, 4, 5, 6")
+	assert.Equal(t, Zip([]float64{1.0, 2.0, 3.0}, []float64{4.0, 5.0, 6.0}), []Tuple[float64, float64]{NewTuple(1.0, 4.0), NewTuple(2.0, 5.0), NewTuple(3.0, 6.0)}, "1.0, 2.0, 3.0, 4.0, 5.0, 6.0")
+	assert.Equal(t, Zip([]string{"a", "b", "c"}, []string{"d", "e", "f"}), []Tuple[string, string]{NewTuple("a", "d"), NewTuple("b", "e"), NewTuple("c", "f")}, `"a", "b", "c", "d", "e", "f"`)
+	assert.Equal(t, Zip([]int{}, []int{}), []Tuple[int, int]{}, "[]int{}, []int{}")
+}
+
 func TestAny(t *testing.T) {
 	assert.True(t, Any(2, []int{1, 2, 3}), "1, 2, 3")
 	assert.True(t, Any(2.0, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
