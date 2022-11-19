@@ -14,8 +14,11 @@ type IterT[T any] struct {
 	index int
 }
 
-// Make sure that the base IterT implements the Iter interface.
+type EmptyT[T any] struct{}
+
+// Make sure that the base IterT and EmptyT implement the Iter interface.
 var _ Iter[string] = (*IterT[string])(nil)
+var _ Iter[string] = (*EmptyT[string])(nil)
 
 // NewIter returns a lazy iterator over the elements of `slice`.
 func NewIter[T any](slice []T) Iter[T] {
@@ -28,4 +31,13 @@ func (i *IterT[T]) Next() (T, bool) {
 	}
 	i.index++
 	return i.slice[i.index-1], true
+}
+
+// EmptyIter returns an empty iterator.
+func EmptyIter[T any]() Iter[T] {
+	return &EmptyT[T]{}
+}
+
+func (e *EmptyT[T]) Next() (T, bool) {
+	return gana.ZeroValue[T](), false
 }

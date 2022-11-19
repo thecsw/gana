@@ -22,3 +22,13 @@ func TestIter(t *testing.T) {
 	assert.Equal(t, gana.ZeroValue[string](), s)
 	assert.False(t, ok)
 }
+
+func TestEmptyIter(t *testing.T) {
+	iter := NewIter([]string{})
+	s, ok := iter.Next()
+	assert.Equal(t, gana.ZeroValue[string](), s)
+	assert.False(t, ok)
+	s, ok = iter.Next()
+	assert.Equal(t, gana.ZeroValue[string](), s)
+	assert.False(t, ok)
+}
