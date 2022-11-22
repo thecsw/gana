@@ -49,3 +49,29 @@ func TestMaybe(t *testing.T) {
 	o = Maybe(1, false)
 	assert.True(t, o.IsNone())
 }
+
+func TestOr(t *testing.T) {
+	o := Some(1).Or(Some(2))
+	assert.True(t, o.IsSome())
+	assert.Equal(t, 1, o.Unwrap())
+
+	o = None[int]().Or(Some(2))
+	assert.True(t, o.IsSome())
+	assert.Equal(t, 2, o.Unwrap())
+}
+
+func TestXor(t *testing.T) {
+	o := Some(1).Xor(Some(2))
+	assert.True(t, o.IsNone())
+
+	o = Some(1).Xor(None[int]())
+	assert.True(t, o.IsSome())
+	assert.Equal(t, 1, o.Unwrap())
+
+	o = None[int]().Xor(Some(2))
+	assert.True(t, o.IsSome())
+	assert.Equal(t, 2, o.Unwrap())
+
+	o = None[int]().Xor(None[int]())
+	assert.True(t, o.IsNone())
+}

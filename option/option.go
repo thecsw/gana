@@ -16,6 +16,10 @@ type Option[T any] interface {
 	UnwrapOr(defaultValue T) T
 	// UnwrapOrElse returns the option's value if it is a Some, otherwise returns the result of the provided function.
 	UnwrapOrElse(f func() T) T
+	// Or returns the option if it is a Some, otherwise returns the provided default option.
+	Or(defaultOption Option[T]) Option[T]
+	// Xor returns the only option that is a Some, otherwise returns None.
+	Xor(other Option[T]) Option[T]
 }
 
 type SomeT[T any] struct{ value T }
@@ -49,6 +53,14 @@ func (o *SomeT[T]) UnwrapNone()   { panic("attempted to UnwrapNone a Some") }
 func (o *SomeT[T]) UnwrapOr(defaultValue T) T { return o.value }
 func (o *SomeT[T]) UnwrapOrElse(f func() T) T { return o.value }
 
+func (o *SomeT[T]) Or(defaultOption Option[T]) Option[T] { return o }
+func (o *SomeT[T]) Xor(other Option[T]) Option[T] {
+	if other.IsSome() {
+		return None[T]()
+	}
+	return o
+}
+
 func (o *NoneT[T]) IsSome() bool { return false }
 func (o *NoneT[T]) IsNone() bool { return true }
 
@@ -58,3 +70,6 @@ func (o *NoneT[T]) UnwrapNone()   {}
 
 func (o *NoneT[T]) UnwrapOr(defaultValue T) T { return defaultValue }
 func (o *NoneT[T]) UnwrapOrElse(f func() T) T { return f() }
+
+func (o *NoneT[T]) Or(defaultOption Option[T]) Option[T] { return defaultOption }
+func (o *NoneT[T]) Xor(other Option[T]) Option[T]        { return other }
