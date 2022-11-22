@@ -73,3 +73,18 @@ func TestUnwrapOrElseResult(t *testing.T) {
 	assert.Equal(t, 1, Ok[int, int](1).UnwrapOrElse(func() int { return 2 }))
 	assert.Equal(t, 2, Err[int](1).UnwrapOrElse(func() int { return 2 }))
 }
+
+func TestTry(t *testing.T) {
+	err := func() (int, error) {
+		return 0, errors.New("test error")
+	}
+
+	res := Try(err())
+	assert.True(t, res.IsErr())
+
+	ok := func() (int, error) {
+		return 1, nil
+	}
+	res = Try(ok())
+	assert.True(t, res.IsOk())
+}
