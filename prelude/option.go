@@ -1,4 +1,4 @@
-package option
+package prelude
 
 import "github.com/thecsw/gana"
 
@@ -41,7 +41,7 @@ func Some[T any](value T) Option[T] { return &SomeT[T]{value} }
 // None returns a new None.
 func None[T any]() Option[T] { return &NoneT[T]{} }
 
-// Maybe converts (t, ok) to an Option.
+// Maybe converts (t, ok) to an Option. Inverse of Unpack.
 func Maybe[T any](t T, ok bool) Option[T] {
 	if ok {
 		return Some(t)
