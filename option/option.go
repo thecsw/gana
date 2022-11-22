@@ -1,11 +1,17 @@
 package option
 
+import "github.com/thecsw/gana"
+
 // Option is a generic option type.
 type Option[T any] interface {
 	// IsSome returns true if the option is a Some.
 	IsSome() bool
 	// IsNone returns true if the option is a None.
 	IsNone() bool
+	// Unpack returns (value, ok) where ok is true if the option is a Some.
+	Unpack() (T, bool)
+	// UnpackRef returns (&value, ok) where ok is true if the option is a Some.
+	UnpackRef() (*T, bool)
 	// Unwrap returns the option's value. Panics if the option is a None.
 	Unwrap() T
 	// UnwrapRef returns a reference to the option's value. Panics if the option is a None.
@@ -46,6 +52,9 @@ func Maybe[T any](t T, ok bool) Option[T] {
 func (o *SomeT[T]) IsSome() bool { return true }
 func (o *SomeT[T]) IsNone() bool { return false }
 
+func (o *SomeT[T]) Unpack() (T, bool)     { return o.value, true }
+func (o *SomeT[T]) UnpackRef() (*T, bool) { return &o.value, true }
+
 func (o *SomeT[T]) Unwrap() T     { return o.value }
 func (o *SomeT[T]) UnwrapRef() *T { return &o.value }
 func (o *SomeT[T]) UnwrapNone()   { panic("attempted to UnwrapNone a Some") }
@@ -63,6 +72,9 @@ func (o *SomeT[T]) Xor(other Option[T]) Option[T] {
 
 func (o *NoneT[T]) IsSome() bool { return false }
 func (o *NoneT[T]) IsNone() bool { return true }
+
+func (o *NoneT[T]) Unpack() (T, bool)     { return gana.ZeroValue[T](), false }
+func (o *NoneT[T]) UnpackRef() (*T, bool) { return nil, false }
 
 func (o *NoneT[T]) Unwrap() T     { panic("attempted to Unwrap a None") }
 func (o *NoneT[T]) UnwrapRef() *T { panic("attempted to UnwrapRef a None") }

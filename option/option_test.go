@@ -16,6 +16,26 @@ func TestIsNone(t *testing.T) {
 	assert.True(t, None[int]().IsNone())
 }
 
+func TestUnpack(t *testing.T) {
+	v, ok := Some(1).Unpack()
+	assert.True(t, ok)
+	assert.Equal(t, 1, v)
+
+	v, ok = None[int]().Unpack()
+	assert.False(t, ok)
+	assert.Equal(t, 0, v)
+}
+
+func TestUnpackRef(t *testing.T) {
+	v, ok := Some(1).UnpackRef()
+	assert.True(t, ok)
+	assert.Equal(t, 1, *v)
+
+	v, ok = None[int]().UnpackRef()
+	assert.False(t, ok)
+	assert.Nil(t, v)
+}
+
 func TestUnwrap(t *testing.T) {
 	assert.Equal(t, 1, Some(1).Unwrap())
 	assert.Panics(t, func() { None[int]().Unwrap() })
