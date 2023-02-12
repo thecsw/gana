@@ -111,6 +111,18 @@ func Filter[T any](f func(T) bool, arr []T) []T {
 	return what
 }
 
+// RemoveIf calls the function and returns list of values that returned false.
+func RemoveIf[T any](f func(T) bool, arr []T) []T {
+	what := make([]T, 0, len(arr))
+	for _, v := range arr {
+		if f(v) {
+			continue
+		}
+		what = append(what, v)
+	}
+	return what
+}
+
 // Take returns up to the first `num` elements.
 func Take[T any](num int, arr []T) []T {
 	if len(arr) < num {

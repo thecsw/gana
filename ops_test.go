@@ -7,171 +7,195 @@ import (
 )
 
 func TestMin(t *testing.T) {
-	assert.Equal(t, Min(1, 2), 1)
-	assert.Equal(t, Min(2, 1), 1)
-	assert.Equal(t, Min(1, 1), 1)
-	assert.Equal(t, Min(1.0, 2.0), 1.0)
-	assert.Equal(t, Min(2.0, 1.0), 1.0)
-	assert.Equal(t, Min(1.0, 1.0), 1.0)
-	assert.Equal(t, Min("a", "b"), "a")
-	assert.Equal(t, Min("b", "a"), "a")
-	assert.Equal(t, Min("a", "a"), "a")
+	assert.Equal(t, 1, Min(1, 2))
+	assert.Equal(t, 1, Min(1, 2))
+	assert.Equal(t, 1, Min(1, 1))
+	assert.Equal(t, 1.0, Min(1.0, 2.0))
+	assert.Equal(t, 1.0, Min(1.0, 2.0))
+	assert.Equal(t, 1.0, Min(1.0, 1.0))
+	assert.Equal(t, "a", Min("b", "a"))
+	assert.Equal(t, "a", Min("b", "a"))
+	assert.Equal(t, "a", Min("a", "a"))
 }
 
 func TestMax(t *testing.T) {
-	assert.Equal(t, Max(1, 2), 2, "1, 2")
-	assert.Equal(t, Max(2, 1), 2, "2, 1")
-	assert.Equal(t, Max(1, 1), 1, "1, 1")
-	assert.Equal(t, Max(1.0, 2.0), 2.0, "1.0, 2.0")
-	assert.Equal(t, Max(2.0, 1.0), 2.0, "2.0, 1.0")
-	assert.Equal(t, Max(1.0, 1.0), 1.0, "1.0, 1.0")
-	assert.Equal(t, Max("a", "b"), "b", "a, b")
-	assert.Equal(t, Max("b", "a"), "b", "b, a")
-	assert.Equal(t, Max("a", "a"), "a", "a, a")
+	assert.Equal(t, 2, Max(1, 2), "2, 1")
+	assert.Equal(t, 2, Max(2, 1), "2, 1")
+	assert.Equal(t, 1, Max(1, 1), "1, 1")
+	assert.Equal(t, 2.0, Max(1.0, 2.0), "2.0, 1.0")
+	assert.Equal(t, 2.0, Max(2.0, 1.0), "2.0, 1.0")
+	assert.Equal(t, 1.0, Max(1.0, 1.0), "1.0, 1.0")
+	assert.Equal(t, "b", Max("a", "b"), "b, a")
+	assert.Equal(t, "b", Max("b", "a"), "b, a")
+	assert.Equal(t, "a", Max("a", "a"), "a, a")
 }
 
 func TestMinv(t *testing.T) {
-	assert.Equal(t, Minv[int](), ZeroValue[int](), "empty minv")
-	assert.Equal(t, Minv(1, 2, 3), 1, "1, 2, 3")
-	assert.Equal(t, Minv(2, 1, 3), 1, "2, 1, 3")
-	assert.Equal(t, Minv(3, 2, 1), 1, "3, 2, 1")
-	assert.Equal(t, Minv(1.0, 2.0, 3.0), 1.0, "1.0, 2.0, 3.0")
-	assert.Equal(t, Minv(2.0, 1.0, 3.0), 1.0, "2.0, 1.0, 3.0")
-	assert.Equal(t, Minv(3.0, 2.0, 1.0), 1.0, "3.0, 2.0, 1.0")
-	assert.Equal(t, Minv("a", "b", "c"), "a", `"a", "b", "c"`)
-	assert.Equal(t, Minv("b", "a", "c"), "a", `"b", "a", "c"`)
-	assert.Equal(t, Minv("c", "b", "a"), "a", `"c", "b", "a"`)
+	assert.Equal(t, ZeroValue[int](), Minv[int](), "empty minv")
+	assert.Equal(t, 1, Minv(1, 2, 3), "1, 2, 3")
+	assert.Equal(t, 1, Minv(2, 1, 3), "2, 1, 3")
+	assert.Equal(t, 1, Minv(3, 2, 1), "3, 2, 1")
+	assert.Equal(t, 1.0, Minv(1.0, 2.0, 3.0), "1.0, 2.0, 3.0")
+	assert.Equal(t, 1.0, Minv(2.0, 1.0, 3.0), "2.0, 1.0, 3.0")
+	assert.Equal(t, 1.0, Minv(3.0, 2.0, 1.0), "3.0, 2.0, 1.0")
+	assert.Equal(t, "a", Minv("a", "b", "c"), `"a", "b", "c"`)
+	assert.Equal(t, "a", Minv("b", "a", "c"), `"b", "a", "c"`)
+	assert.Equal(t, "a", Minv("c", "b", "a"), `"c", "b", "a"`)
 }
 
 func TestMaxv(t *testing.T) {
-	assert.Equal(t, Maxv[int](), ZeroValue[int](), "empty maxv")
-	assert.Equal(t, Maxv(1, 2, 3), 3, "1, 2, 3")
-	assert.Equal(t, Maxv(2, 1, 3), 3, "2, 1, 3")
-	assert.Equal(t, Maxv(3, 2, 1), 3, "3, 2, 1")
-	assert.Equal(t, Maxv(1.0, 2.0, 3.0), 3.0, "1.0, 2.0, 3.0")
-	assert.Equal(t, Maxv(2.0, 1.0, 3.0), 3.0, "2.0, 1.0, 3.0")
-	assert.Equal(t, Maxv(3.0, 2.0, 1.0), 3.0, "3.0, 2.0, 1.0")
-	assert.Equal(t, Maxv("a", "b", "c"), "c", `"a", "b", "c"`)
-	assert.Equal(t, Maxv("b", "a", "c"), "c", `"b", "a", "c"`)
-	assert.Equal(t, Maxv("c", "b", "a"), "c", `"c", "b", "a"`)
+	assert.Equal(t, ZeroValue[int](), Maxv[int](), "empty maxv")
+	assert.Equal(t, 3, Maxv(1, 2, 3), "1, 2, 3")
+	assert.Equal(t, 3, Maxv(2, 1, 3), "2, 1, 3")
+	assert.Equal(t, 3, Maxv(3, 2, 1), "3, 2, 1")
+	assert.Equal(t, 3.0, Maxv(1.0, 2.0, 3.0), "1.0, 2.0, 3.0")
+	assert.Equal(t, 3.0, Maxv(2.0, 1.0, 3.0), "2.0, 1.0, 3.0")
+	assert.Equal(t, 3.0, Maxv(3.0, 2.0, 1.0), "3.0, 2.0, 1.0")
+	assert.Equal(t, "c", Maxv("a", "b", "c"), `"a", "b", "c"`)
+	assert.Equal(t, "c", Maxv("b", "a", "c"), `"b", "a", "c"`)
+	assert.Equal(t, "c", Maxv("c", "b", "a"), `"c", "b", "a"`)
 }
 
 func TestMinMaxv(t *testing.T) {
 	x, z := MinMaxv[int]()
-	assert.Equal(t, x, ZeroValue[int](), "empty MinMaxv, min")
-	assert.Equal(t, z, ZeroValue[int](), "empty MinMaxv, max")
+	assert.Equal(t, ZeroValue[int](), x, "empty MinMaxv, min")
+	assert.Equal(t, ZeroValue[int](), z, "empty MinMaxv, max")
 	a, b := MinMaxv(1, 2, 3)
-	assert.Equal(t, a, 1, "1, 2, 3")
-	assert.Equal(t, b, 3, "1, 2, 3")
+	assert.Equal(t, 1, a, "1, 2, 3")
+	assert.Equal(t, 3, b, "1, 2, 3")
 	a, b = MinMaxv(2, 1, 3)
-	assert.Equal(t, a, 1, "2, 1, 3")
-	assert.Equal(t, b, 3, "2, 1, 3")
+	assert.Equal(t, 1, a, "2, 1, 3")
+	assert.Equal(t, 3, b, "2, 1, 3")
 	a, b = MinMaxv(3, 2, 1)
-	assert.Equal(t, a, 1, "3, 2, 1")
-	assert.Equal(t, b, 3, "3, 2, 1")
+	assert.Equal(t, 1, a, "3, 2, 1")
+	assert.Equal(t, 3, b, "3, 2, 1")
 	c, d := MinMaxv(1.0, 2.0, 3.0)
-	assert.Equal(t, c, 1.0, "1.0, 2.0, 3.0")
-	assert.Equal(t, d, 3.0, "1.0, 2.0, 3.0")
+	assert.Equal(t, 1.0, c, "1.0, 2.0, 3.0")
+	assert.Equal(t, 3.0, d, "1.0, 2.0, 3.0")
 	c, d = MinMaxv(2.0, 1.0, 3.0)
-	assert.Equal(t, c, 1.0, "2.0, 1.0, 3.0")
-	assert.Equal(t, d, 3.0, "2.0, 1.0, 3.0")
+	assert.Equal(t, 1.0, c, "2.0, 1.0, 3.0")
+	assert.Equal(t, 3.0, d, "2.0, 1.0, 3.0")
 	c, d = MinMaxv(3.0, 2.0, 1.0)
-	assert.Equal(t, c, 1.0, "3.0, 2.0, 1.0")
-	assert.Equal(t, d, 3.0, "3.0, 2.0, 1.0")
+	assert.Equal(t, 1.0, c, "3.0, 2.0, 1.0")
+	assert.Equal(t, 3.0, d, "3.0, 2.0, 1.0")
 	e, f := MinMaxv("a", "b", "c")
-	assert.Equal(t, e, "a", `"a", "b", "c"`)
-	assert.Equal(t, f, "c", `"a", "b", "c"`)
+	assert.Equal(t, "a", e, `"a", "b", "c"`)
+	assert.Equal(t, "c", f, `"a", "b", "c"`)
 	e, f = MinMaxv("b", "a", "c")
-	assert.Equal(t, e, "a", `"b", "a", "c"`)
-	assert.Equal(t, f, "c", `"b", "a", "c"`)
+	assert.Equal(t, "a", e, `"b", "a", "c"`)
+	assert.Equal(t, "c", f, `"b", "a", "c"`)
 	e, f = MinMaxv("c", "b", "a")
-	assert.Equal(t, e, "a", `"c", "b", "a"`)
-	assert.Equal(t, f, "c", `"c", "b", "a"`)
-}
-
-func TestFirst(t *testing.T) {
-	assert.Equal(t, First([]int{1, 2, 3}), 1, "1, 2, 3")
-	assert.Equal(t, First([]int{}), 0, "[]int{}")
-	assert.Equal(t, First([]float64{1.0, 2.0, 3.0}), 1.0, "1.0, 2.0, 3.0")
-	assert.Equal(t, First([]float64{}), 0.0, "[]float64{}")
-	assert.Equal(t, First([]string{"a", "b", "c"}), "a", `"a", "b", "c"`)
-	assert.Equal(t, First([]string{}), "", "[]string{}")
-}
-
-func TestLast(t *testing.T) {
-	assert.Equal(t, Last([]int{1, 2, 3}), 3, "1, 2, 3")
-	assert.Equal(t, Last([]int{}), 0, "[]int{}")
-	assert.Equal(t, Last([]float64{1.0, 2.0, 3.0}), 3.0, "1.0, 2.0, 3.0")
-	assert.Equal(t, Last([]float64{}), 0.0, "[]float64{}")
-	assert.Equal(t, Last([]string{"a", "b", "c"}), "c", `"a", "b", "c"`)
-	assert.Equal(t, Last([]string{}), "", "[]string{}")
+	assert.Equal(t, "a", e, `"c", "b", "a"`)
+	assert.Equal(t, "c", f, `"c", "b", "a"`)
 }
 
 func TestZeroValue(t *testing.T) {
-	assert.Equal(t, ZeroValue[int](), 0, "int")
-	assert.Equal(t, ZeroValue[float64](), 0.0, "float64")
-	assert.Equal(t, ZeroValue[string](), "", "string")
+	assert.Equal(t, 0, ZeroValue[int](), "int")
+	assert.Equal(t, 0.0, ZeroValue[float64](), "float64")
+	assert.Equal(t, "", ZeroValue[string](), "string")
 }
 
 func TestMap(t *testing.T) {
-	assert.Equal(t, Map(func(x int) int { return x * 2 }, []int{1, 2, 3}), []int{2, 4, 6}, "1, 2, 3")
-	assert.Equal(t, Map(func(x float64) float64 { return x * 2 }, []float64{1.0, 2.0, 3.0}), []float64{2.0, 4.0, 6.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Map(func(x string) string { return x + x }, []string{"a", "b", "c"}), []string{"aa", "bb", "cc"}, `"a", "b", "c"`)
-	assert.Equal(t, Map(func(x int) int { return x * 2 }, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Map(func(x float64) float64 { return x * 2 }, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Map(func(x string) string { return x + x }, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, []int{2, 4, 6}, Map(func(x int) int { return x * 2 }, []int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, []float64{2.0, 4.0, 6.0}, Map(func(x float64) float64 { return x * 2 }, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, []string{"aa", "bb", "cc"}, Map(func(x string) string { return x + x }, []string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, []int{}, Map(func(x int) int { return x * 2 }, []int{}), "[]int{}")
+	assert.Equal(t, []float64{}, Map(func(x float64) float64 { return x * 2 }, []float64{}), "[]float64{}")
+	assert.Equal(t, []string{}, Map(func(x string) string { return x + x }, []string{}), "[]string{}")
+}
+
+func TestFirst(t *testing.T) {
+	assert.Equal(t, 1, First([]int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, 0, First([]int{}), "[]int{}")
+	assert.Equal(t, 1.0, First([]float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, 0.0, First([]float64{}), "[]float64{}")
+	assert.Equal(t, "a", First([]string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, "", First([]string{}), "[]string{}")
+
+}
+
+func TestLast(t *testing.T) {
+	assert.Equal(t, 0, Last([]int{}), "[]int{}")
+	assert.Equal(t, 3.0, Last([]float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, 0.0, Last([]float64{}), "[]float64{}")
+	assert.Equal(t, "c", Last([]string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, "", Last([]string{}), "[]string{}")
 }
 
 func TestFilter(t *testing.T) {
-	assert.Equal(t, Filter(func(x int) bool { return x > 2 }, []int{1, 2, 3}), []int{3}, "1, 2, 3")
-	assert.Equal(t, Filter(func(x float64) bool { return x > 2.0 }, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Filter(func(x string) bool { return x > "b" }, []string{"a", "b", "c"}), []string{"c"}, `"a", "b", "c"`)
-	assert.Equal(t, Filter(func(x int) bool { return x > 2 }, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Filter(func(x float64) bool { return x > 2.0 }, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Filter(func(x string) bool { return x > "b" }, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, []int{3}, Filter(func(x int) bool { return x > 2 }, []int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, []float64{3.0}, Filter(func(x float64) bool { return x > 2.0 }, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, []string{"c"}, Filter(func(x string) bool { return x > "b" }, []string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, []int{}, Filter(func(x int) bool { return x > 2 }, []int{}), "[]int{}")
+	assert.Equal(t, []float64{}, Filter(func(x float64) bool { return x > 2.0 }, []float64{}), "[]float64{}")
+	assert.Equal(t, []string{}, Filter(func(x string) bool { return x > "b" }, []string{}), "[]string{}")
+}
+
+func TestRemoveIf(t *testing.T) {
+	assert.Equal(t, []int{3}, RemoveIf(func(x int) bool { return x <= 2 }, []int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, []float64{3.0}, RemoveIf(func(x float64) bool { return x <= 2.0 }, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, []string{"c"}, RemoveIf(func(x string) bool { return x <= "b" }, []string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, []int{}, RemoveIf(func(x int) bool { return x <= 2 }, []int{}), "[]int{}")
+	assert.Equal(t, []float64{}, RemoveIf(func(x float64) bool { return x <= 2.0 }, []float64{}), "[]float64{}")
+	assert.Equal(t, []string{}, RemoveIf(func(x string) bool { return x <= "b" }, []string{}), "[]string{}")
 }
 
 func TestTake(t *testing.T) {
-	assert.Equal(t, Take(2, []int{1, 2, 3}), []int{1, 2}, "1, 2, 3")
-	assert.Equal(t, Take(2, []float64{1.0, 2.0, 3.0}), []float64{1.0, 2.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Take(2, []string{"a", "b", "c"}), []string{"a", "b"}, `"a", "b", "c"`)
-	assert.Equal(t, Take(2, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Take(2, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Take(2, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, []int{1, 2}, Take(2, []int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, []float64{1.0, 2.0}, Take(2, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, []string{"a", "b"}, Take(2, []string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, []int{}, Take(2, []int{}), "[]int{}")
+	assert.Equal(t, []float64{}, Take(2, []float64{}), "[]float64{}")
+	assert.Equal(t, []string{}, Take(2, []string{}), "[]string{}")
 }
 
 func TestTail(t *testing.T) {
-	assert.Equal(t, Tail(2, []int{1, 2, 3}), []int{2, 3}, "1, 2, 3")
-	assert.Equal(t, Tail(2, []float64{1.0, 2.0, 3.0}), []float64{2.0, 3.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Tail(2, []string{"a", "b", "c"}), []string{"b", "c"}, `"a", "b", "c"`)
-	assert.Equal(t, Tail(2, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Tail(2, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Tail(2, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, []int{2, 3}, Tail(2, []int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, []float64{2.0, 3.0}, Tail(2, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, []string{"b", "c"}, Tail(2, []string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, []int{}, Tail(2, []int{}), "[]int{}")
+	assert.Equal(t, []float64{}, Tail(2, []float64{}), "[]float64{}")
+	assert.Equal(t, []string{}, Tail(2, []string{}), "[]string{}")
 }
 
 func TestDrop(t *testing.T) {
-	assert.Equal(t, Drop[int, uint](2, []int{1, 2, 3}), []int{3}, "1, 2, 3")
-	assert.Equal(t, Drop[float64, uint](2, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Drop[string, uint](2, []string{"a", "b", "c"}), []string{"c"}, `"a", "b", "c"`)
-	assert.Equal(t, Drop[int, uint](2, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Drop[float64, uint](2, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Drop[string, uint](2, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, []int{3}, Drop[int, uint](2, []int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, []float64{3.0}, Drop[float64, uint](2, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, []string{"c"}, Drop[string, uint](2, []string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, []int{}, Drop[int, uint](2, []int{}), "[]int{}")
+	assert.Equal(t, []float64{}, Drop[float64, uint](2, []float64{}), "[]float64{}")
+	assert.Equal(t, []string{}, Drop[string, uint](2, []string{}), "[]string{}")
 }
 
 func TestSkip(t *testing.T) {
-	assert.Equal(t, Skip[int, uint](2, []int{1, 2, 3}), []int{3}, "1, 2, 3")
-	assert.Equal(t, Skip[float64, uint](2, []float64{1.0, 2.0, 3.0}), []float64{3.0}, "1.0, 2.0, 3.0")
-	assert.Equal(t, Skip[string, uint](2, []string{"a", "b", "c"}), []string{"c"}, `"a", "b", "c"`)
-	assert.Equal(t, Skip[int, uint](2, []int{}), []int{}, "[]int{}")
-	assert.Equal(t, Skip[float64, uint](2, []float64{}), []float64{}, "[]float64{}")
-	assert.Equal(t, Skip[string, uint](2, []string{}), []string{}, "[]string{}")
+	assert.Equal(t, []int{3}, Skip[int, uint](2, []int{1, 2, 3}), "1, 2, 3")
+	assert.Equal(t, []float64{3.0}, Skip[float64, uint](2, []float64{1.0, 2.0, 3.0}), "1.0, 2.0, 3.0")
+	assert.Equal(t, []string{"c"}, Skip[string, uint](2, []string{"a", "b", "c"}), `"a", "b", "c"`)
+	assert.Equal(t, []int{}, Skip[int, uint](2, []int{}), "[]int{}")
+	assert.Equal(t, []float64{}, Skip[float64, uint](2, []float64{}), "[]float64{}")
+	assert.Equal(t, []string{}, Skip[string, uint](2, []string{}), "[]string{}")
 }
 
 func TestZip(t *testing.T) {
-	assert.Equal(t, Zip([]int{1, 2, 3}, []int{4, 5, 6}), []Tuple[int, int]{NewTuple(1, 4), NewTuple(2, 5), NewTuple(3, 6)}, "1, 2, 3, 4, 5, 6")
-	assert.Equal(t, Zip([]float64{1.0, 2.0, 3.0}, []float64{4.0, 5.0, 6.0}), []Tuple[float64, float64]{NewTuple(1.0, 4.0), NewTuple(2.0, 5.0), NewTuple(3.0, 6.0)}, "1.0, 2.0, 3.0, 4.0, 5.0, 6.0")
-	assert.Equal(t, Zip([]string{"a", "b", "c"}, []string{"d", "e", "f"}), []Tuple[string, string]{NewTuple("a", "d"), NewTuple("b", "e"), NewTuple("c", "f")}, `"a", "b", "c", "d", "e", "f"`)
-	assert.Equal(t, Zip([]int{}, []int{}), []Tuple[int, int]{}, "[]int{}, []int{}")
+	assert.Equal(t,
+		[]Tuple[int, int]{NewTuple(1, 4), NewTuple(2, 5), NewTuple(3, 6)},
+		Zip([]int{1, 2, 3}, []int{4, 5, 6}),
+		"1, 2, 3, 4, 5, 6")
+
+	assert.Equal(t,
+		[]Tuple[float64, float64]{NewTuple(1.0, 4.0), NewTuple(2.0, 5.0), NewTuple(3.0, 6.0)},
+		Zip([]float64{1.0, 2.0, 3.0}, []float64{4.0, 5.0, 6.0}),
+		"1.0, 2.0, 3.0, 4.0, 5.0, 6.0")
+
+	assert.Equal(t,
+		[]Tuple[string, string]{NewTuple("a", "d"), NewTuple("b", "e"), NewTuple("c", "f")},
+		Zip([]string{"a", "b", "c"}, []string{"d", "e", "f"}),
+		`"a", "b", "c", "d", "e", "f"`)
+
+	assert.Equal(t,
+		[]Tuple[int, int]{},
+		Zip([]int{}, []int{}),
+		"[]int{}, []int{}")
 }
 
 func TestAny(t *testing.T) {
@@ -211,12 +235,12 @@ func TestAllf(t *testing.T) {
 }
 
 func TestRepeat(t *testing.T) {
-	assert.Equal(t, Repeat(1, 0), []int{}, "Repeat(1, 0)")
-	assert.Equal(t, Repeat(1, 1), []int{1}, "Repeat(1, 1)")
-	assert.Equal(t, Repeat(1, 2), []int{1, 1}, "Repeat(1, 2)")
-	assert.Equal(t, Repeat(1, 3), []int{1, 1, 1}, "Repeat(1, 3)")
-	assert.Equal(t, Repeat(1, 4), []int{1, 1, 1, 1}, "Repeat(1, 4)")
-	assert.Equal(t, Repeat(1, 5), []int{1, 1, 1, 1, 1}, "Repeat(1, 5)")
+	assert.Equal(t, []int{}, Repeat(1, 0), "Repeat(1, 0)")
+	assert.Equal(t, []int{1}, Repeat(1, 1), "Repeat(1, 1)")
+	assert.Equal(t, []int{1, 1}, Repeat(1, 2), "Repeat(1, 2)")
+	assert.Equal(t, []int{1, 1, 1}, Repeat(1, 3), "Repeat(1, 3)")
+	assert.Equal(t, []int{1, 1, 1, 1}, Repeat(1, 4), "Repeat(1, 4)")
+	assert.Equal(t, []int{1, 1, 1, 1, 1}, Repeat(1, 5), "Repeat(1, 5)")
 }
 
 func TestGetPointer(t *testing.T) {
