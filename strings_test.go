@@ -15,6 +15,15 @@ func TestTakeString(t *testing.T) {
 	assert.Equal(t, "", TakeString[uint](1, ""), `""[:1]`)
 }
 
+func TestPeekString(t *testing.T) {
+	assert.Equal(t, "a", PeekString[uint](1, "abc"), `"abc"[:1]`)
+	assert.Equal(t, "ab", PeekString[uint](2, "abc"), `"abc"[:2]`)
+	assert.Equal(t, "abc", PeekString[uint](3, "abc"), `"abc"[:3]`)
+	assert.Equal(t, "abc", PeekString[uint](4, "abc"), `"abc"[:4]`)
+	assert.Equal(t, "", PeekString[uint](0, "abc"), `"abc"[:0]`)
+	assert.Equal(t, "", PeekString[uint](1, ""), `""[:1]`)
+}
+
 func TestDropString(t *testing.T) {
 	assert.Equal(t, "bc", DropString[uint](1, "abc"), `"abc"[1:]`)
 	assert.Equal(t, "c", DropString[uint](2, "abc"), `"abc"[2:]`)
