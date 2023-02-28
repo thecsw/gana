@@ -18,15 +18,23 @@ func Max[T constraints.Ordered](a, b T) T {
 	return b
 }
 
+func DefaultLess[T constraints.Ordered](a, b T) bool { return a < b }
+
 // Minv returns the minimum of the given values, or if no values are given, the zero value of the type.
 func Minv[T constraints.Ordered](vals ...T) T {
+	return Minf(DefaultLess[T], vals...)
+}
+
+// Minf returns the minimum of the given values with a given "less" comparator,
+// or if no values are given, the zero value of the type.
+func Minf[T any](less func(T, T) bool, vals ...T) T {
 	if len(vals) == 0 {
 		return ZeroValue[T]()
 	}
 
 	min := vals[0]
 	for _, v := range vals {
-		if v < min {
+		if less(v, min) {
 			min = v
 		}
 	}
@@ -35,13 +43,19 @@ func Minv[T constraints.Ordered](vals ...T) T {
 
 // Maxv returns the maximum of the given values, or if no values are given, the zero value of the type.
 func Maxv[T constraints.Ordered](vals ...T) T {
+	return Maxf(DefaultLess[T], vals...)
+}
+
+// Maxf returns the maximum of the given values with a given "less" comparator,
+// or if no values are given, the zero value of the type.
+func Maxf[T any](less func(T, T) bool, vals ...T) T {
 	if len(vals) == 0 {
 		return ZeroValue[T]()
 	}
 
 	max := vals[0]
 	for _, v := range vals {
-		if v > max {
+		if !less(v, max) {
 			max = v
 		}
 	}
@@ -50,6 +64,12 @@ func Maxv[T constraints.Ordered](vals ...T) T {
 
 // MinMaxv returns the minimum and maximum of the given values, or if no values are given, two zero value of the type.
 func MinMaxv[T constraints.Ordered](vals ...T) (T, T) {
+	return MinMaxf(DefaultLess[T], vals...)
+}
+
+// MinMaxv returns the minimum and maximum of the given values with a given "less" comparator,
+// or if no values are given, two zero value of the type.
+func MinMaxf[T any](less func(T, T) bool, vals ...T) (T, T) {
 	if len(vals) == 0 {
 		return ZeroValue[T](), ZeroValue[T]()
 	}
@@ -57,10 +77,10 @@ func MinMaxv[T constraints.Ordered](vals ...T) (T, T) {
 	min := vals[0]
 	max := vals[0]
 	for _, v := range vals {
-		if v < min {
+		if less(v, min) {
 			min = v
 		}
-		if v > max {
+		if !less(v, max) {
 			max = v
 		}
 	}

@@ -2,6 +2,7 @@ package gana
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -43,6 +44,21 @@ func TestMinv(t *testing.T) {
 	assert.Equal(t, "a", Minv("c", "b", "a"), `"c", "b", "a"`)
 }
 
+func TestMinf(t *testing.T) {
+	now := time.Date(2000, 06, 14, 14, 14, 0, 0, time.Local)
+	plusSecond := now.Add(time.Second)
+	minusHour := now.Add(-time.Hour)
+	plusDay := now.Add(time.Hour * 24)
+	minusYear := now.Add(-time.Hour * 24 * 365)
+
+	UnixLess := func(a, b time.Time) bool { return a.UnixNano() < b.UnixNano() }
+	DurationLess := func(a, b time.Time) bool { return a.Sub(b) < 0 }
+
+	assert.Equal(t, ZeroValue[int](), Minv[int](), "empty minv")
+	assert.Equal(t, minusYear, Minf(UnixLess, now, plusSecond, minusHour, plusDay, minusYear), "time one")
+	assert.Equal(t, minusYear, Minf(DurationLess, now, plusSecond, minusHour, plusDay, minusYear), "time two")
+}
+
 func TestMaxv(t *testing.T) {
 	assert.Equal(t, ZeroValue[int](), Maxv[int](), "empty maxv")
 	assert.Equal(t, 3, Maxv(1, 2, 3), "1, 2, 3")
@@ -54,6 +70,21 @@ func TestMaxv(t *testing.T) {
 	assert.Equal(t, "c", Maxv("a", "b", "c"), `"a", "b", "c"`)
 	assert.Equal(t, "c", Maxv("b", "a", "c"), `"b", "a", "c"`)
 	assert.Equal(t, "c", Maxv("c", "b", "a"), `"c", "b", "a"`)
+}
+
+func TestMaxf(t *testing.T) {
+	now := time.Date(2000, 06, 14, 14, 14, 0, 0, time.Local)
+	plusSecond := now.Add(time.Second)
+	minusHour := now.Add(-time.Hour)
+	plusDay := now.Add(time.Hour * 24)
+	minusYear := now.Add(-time.Hour * 24 * 365)
+
+	UnixLess := func(a, b time.Time) bool { return a.UnixNano() < b.UnixNano() }
+	DurationLess := func(a, b time.Time) bool { return a.Sub(b) < 0 }
+
+	assert.Equal(t, ZeroValue[int](), Minv[int](), "empty minv")
+	assert.Equal(t, plusDay, Maxf(UnixLess, now, plusSecond, minusHour, plusDay, minusYear), "time one")
+	assert.Equal(t, plusDay, Maxf(DurationLess, now, plusSecond, minusHour, plusDay, minusYear), "time two")
 }
 
 func TestMinMaxv(t *testing.T) {
@@ -87,6 +118,28 @@ func TestMinMaxv(t *testing.T) {
 	e, f = MinMaxv("c", "b", "a")
 	assert.Equal(t, "a", e, `"c", "b", "a"`)
 	assert.Equal(t, "c", f, `"c", "b", "a"`)
+}
+
+func TestMinMaxf(t *testing.T) {
+	now := time.Date(2000, 06, 14, 14, 14, 0, 0, time.Local)
+	plusSecond := now.Add(time.Second)
+	minusHour := now.Add(-time.Hour)
+	plusDay := now.Add(time.Hour * 24)
+	minusYear := now.Add(-time.Hour * 24 * 365)
+
+	UnixLess := func(a, b time.Time) bool { return a.UnixNano() < b.UnixNano() }
+	DurationLess := func(a, b time.Time) bool { return a.Sub(b) < 0 }
+
+	x, z := MinMaxv[int]()
+	assert.Equal(t, ZeroValue[int](), x, "empty MinMaxv, min")
+	assert.Equal(t, ZeroValue[int](), z, "empty MinMaxv, max")
+
+	a, b := MinMaxf(UnixLess, now, plusSecond, minusHour, plusDay, minusYear)
+	assert.Equal(t, minusYear, a, "time one")
+	assert.Equal(t, plusDay, b, "time two")
+	c, d := MinMaxf(DurationLess, now, plusSecond, minusHour, plusDay, minusYear)
+	assert.Equal(t, minusYear, c, "time one")
+	assert.Equal(t, plusDay, d, "time two")
 }
 
 func TestZeroValue(t *testing.T) {
