@@ -18,9 +18,15 @@ func Max[T constraints.Ordered](a, b T) T {
 	return b
 }
 
+// DefaultLess is the default less function for any ordered type and will
+// return true if a < b, false otherwise.
+//
+//go:inline
 func DefaultLess[T constraints.Ordered](a, b T) bool { return a < b }
 
 // Minv returns the minimum of the given values, or if no values are given, the zero value of the type.
+//
+//go:inline
 func Minv[T constraints.Ordered](vals ...T) T {
 	return Minf(DefaultLess[T], vals...)
 }
@@ -42,6 +48,8 @@ func Minf[T any](less func(T, T) bool, vals ...T) T {
 }
 
 // Maxv returns the maximum of the given values, or if no values are given, the zero value of the type.
+//
+//go:inline
 func Maxv[T constraints.Ordered](vals ...T) T {
 	return Maxf(DefaultLess[T], vals...)
 }
@@ -105,6 +113,8 @@ func Last[T any](x []T) T {
 }
 
 // ZeroValue returns the zero value of any type.
+//
+//go:inline
 func ZeroValue[T any]() T {
 	var t T
 	return t
