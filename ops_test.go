@@ -44,6 +44,15 @@ func TestMinv(t *testing.T) {
 	assert.Equal(t, "a", Minv("c", "b", "a"), `"c", "b", "a"`)
 }
 
+func TestOperators(t *testing.T) {
+	assert.Equal(t, true, Less(1, 2), "less")
+	assert.Equal(t, true, Greater(2, 1), "greater")
+	assert.Equal(t, true, Equals(1, 1), "equals")
+	assert.Equal(t, false, Equals(1, 2), "not equals")
+	assert.Equal(t, true, EqualsClosure(1)(1), "equals closure")
+	assert.Equal(t, false, EqualsClosure(1)(2), "not equals closure")
+}
+
 func TestMinf(t *testing.T) {
 	now := time.Date(2000, 06, 14, 14, 14, 0, 0, time.Local)
 	plusSecond := now.Add(time.Second)

@@ -18,17 +18,35 @@ func Max[T constraints.Ordered](a, b T) T {
 	return b
 }
 
-// DefaultLess is the default less function for any ordered type and will
+// Less is the default less function for any ordered type and will
 // return true if a < b, false otherwise.
 //
 //go:inline
-func DefaultLess[T constraints.Ordered](a, b T) bool { return a < b }
+func Less[T constraints.Ordered](a, b T) bool { return a < b }
+
+// DefaultLess is the default greater function for any ordered type and will
+// return true if a > b, false otherwise.
+//
+//go:inline
+func Greater[T constraints.Ordered](a, b T) bool { return a > b }
+
+// Equals is the default equals function for any ordered type and will
+// return true if a = b, false otherwise.
+//
+//go:inline
+func Equals[T comparable](a, b T) bool { return a == b }
+
+// Equals is the default equals function that will return a closure equals
+// function to compare the value to the original wrapped val.
+//
+//go:inline
+func EqualsClosure[T comparable](a T) func(T) bool { return func(b T) bool { return a == b } }
 
 // Minv returns the minimum of the given values, or if no values are given, the zero value of the type.
 //
 //go:inline
 func Minv[T constraints.Ordered](vals ...T) T {
-	return Minf(DefaultLess[T], vals...)
+	return Minf(Less[T], vals...)
 }
 
 // Minf returns the minimum of the given values with a given "less" comparator,
@@ -51,7 +69,7 @@ func Minf[T any](less func(T, T) bool, vals ...T) T {
 //
 //go:inline
 func Maxv[T constraints.Ordered](vals ...T) T {
-	return Maxf(DefaultLess[T], vals...)
+	return Maxf(Less[T], vals...)
 }
 
 // Maxf returns the maximum of the given values with a given "less" comparator,
@@ -71,8 +89,10 @@ func Maxf[T any](less func(T, T) bool, vals ...T) T {
 }
 
 // MinMaxv returns the minimum and maximum of the given values, or if no values are given, two zero value of the type.
+//
+//go:inline
 func MinMaxv[T constraints.Ordered](vals ...T) (T, T) {
-	return MinMaxf(DefaultLess[T], vals...)
+	return MinMaxf(Less[T], vals...)
 }
 
 // MinMaxv returns the minimum and maximum of the given values with a given "less" comparator,
@@ -201,13 +221,10 @@ func Zip[T, U any](a []T, b []U) []Tuple[T, U] {
 }
 
 // Any returns true if any element in the list matches the given value.
+//
+//go:inline
 func Any[T comparable](val T, arr []T) bool {
-	for _, v := range arr {
-		if val == v {
-			return true
-		}
-	}
-	return false
+	return Anyf(EqualsClosure(val), arr)
 }
 
 // Anyf returns true if any elemens in the list returns true when passed to foo.
@@ -221,13 +238,10 @@ func Anyf[T any](foo func(v T) bool, arr []T) bool {
 }
 
 // All returns true if all elements in the list match the given value.
+//
+//go:inline
 func All[T comparable](val T, arr []T) bool {
-	for _, v := range arr {
-		if val != v {
-			return false
-		}
-	}
-	return true
+	return Allf(EqualsClosure(val), arr)
 }
 
 // Allf returns true if all elements in the array return true when passed to foo.
