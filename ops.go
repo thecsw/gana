@@ -18,15 +18,47 @@ func Max[T constraints.Ordered](a, b T) T {
 	return b
 }
 
+// Less is the default less function for any ordered type and will
+// return true if a < b, false otherwise.
+//
+//go:inline
+func Less[T constraints.Ordered](a, b T) bool { return a < b }
+
+// DefaultLess is the default greater function for any ordered type and will
+// return true if a > b, false otherwise.
+//
+//go:inline
+func Greater[T constraints.Ordered](a, b T) bool { return a > b }
+
+// Equals is the default equals function for any ordered type and will
+// return true if a = b, false otherwise.
+//
+//go:inline
+func Equals[T comparable](a, b T) bool { return a == b }
+
+// Equals is the default equals function that will return a closure equals
+// function to compare the value to the original wrapped val.
+//
+//go:inline
+func EqualsClosure[T comparable](a T) func(T) bool { return func(b T) bool { return a == b } }
+
 // Minv returns the minimum of the given values, or if no values are given, the zero value of the type.
+//
+//go:inline
 func Minv[T constraints.Ordered](vals ...T) T {
+	return Minf(Less[T], vals...)
+}
+
+// Minf returns the minimum of the given values with a given "less" comparator,
+// or if no values are given, the zero value of the type.
+func Minf[T any](less func(T, T) bool, vals ...T) T {
 	if len(vals) == 0 {
 		return ZeroValue[T]()
 	}
 
 	min := vals[0]
 	for _, v := range vals {
-		if v < min {
+		if less(v, min) {
 			min = v
 		}
 	}
@@ -34,14 +66,22 @@ func Minv[T constraints.Ordered](vals ...T) T {
 }
 
 // Maxv returns the maximum of the given values, or if no values are given, the zero value of the type.
+//
+//go:inline
 func Maxv[T constraints.Ordered](vals ...T) T {
+	return Maxf(Less[T], vals...)
+}
+
+// Maxf returns the maximum of the given values with a given "less" comparator,
+// or if no values are given, the zero value of the type.
+func Maxf[T any](less func(T, T) bool, vals ...T) T {
 	if len(vals) == 0 {
 		return ZeroValue[T]()
 	}
 
 	max := vals[0]
 	for _, v := range vals {
-		if v > max {
+		if !less(v, max) {
 			max = v
 		}
 	}
@@ -49,7 +89,15 @@ func Maxv[T constraints.Ordered](vals ...T) T {
 }
 
 // MinMaxv returns the minimum and maximum of the given values, or if no values are given, two zero value of the type.
+//
+//go:inline
 func MinMaxv[T constraints.Ordered](vals ...T) (T, T) {
+	return MinMaxf(Less[T], vals...)
+}
+
+// MinMaxv returns the minimum and maximum of the given values with a given "less" comparator,
+// or if no values are given, two zero value of the type.
+func MinMaxf[T any](less func(T, T) bool, vals ...T) (T, T) {
 	if len(vals) == 0 {
 		return ZeroValue[T](), ZeroValue[T]()
 	}
@@ -57,10 +105,10 @@ func MinMaxv[T constraints.Ordered](vals ...T) (T, T) {
 	min := vals[0]
 	max := vals[0]
 	for _, v := range vals {
-		if v < min {
+		if less(v, min) {
 			min = v
 		}
-		if v > max {
+		if !less(v, max) {
 			max = v
 		}
 	}
@@ -85,6 +133,8 @@ func Last[T any](x []T) T {
 }
 
 // ZeroValue returns the zero value of any type.
+//
+//go:inline
 func ZeroValue[T any]() T {
 	var t T
 	return t
@@ -104,6 +154,18 @@ func Filter[T any](f func(T) bool, arr []T) []T {
 	what := make([]T, 0, len(arr))
 	for _, v := range arr {
 		if !f(v) {
+			continue
+		}
+		what = append(what, v)
+	}
+	return what
+}
+
+// RemoveIf calls the function and returns list of values that returned false.
+func RemoveIf[T any](f func(T) bool, arr []T) []T {
+	what := make([]T, 0, len(arr))
+	for _, v := range arr {
+		if f(v) {
 			continue
 		}
 		what = append(what, v)
@@ -159,13 +221,10 @@ func Zip[T, U any](a []T, b []U) []Tuple[T, U] {
 }
 
 // Any returns true if any element in the list matches the given value.
+//
+//go:inline
 func Any[T comparable](val T, arr []T) bool {
-	for _, v := range arr {
-		if val == v {
-			return true
-		}
-	}
-	return false
+	return Anyf(EqualsClosure(val), arr)
 }
 
 // Anyf returns true if any elemens in the list returns true when passed to foo.
@@ -179,13 +238,10 @@ func Anyf[T any](foo func(v T) bool, arr []T) bool {
 }
 
 // All returns true if all elements in the list match the given value.
+//
+//go:inline
 func All[T comparable](val T, arr []T) bool {
-	for _, v := range arr {
-		if val != v {
-			return false
-		}
-	}
-	return true
+	return Allf(EqualsClosure(val), arr)
 }
 
 // Allf returns true if all elements in the array return true when passed to foo.
