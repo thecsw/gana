@@ -54,7 +54,8 @@ func TestSet(t *testing.T) {
 	t1.Remove(3)
 	t2.Remove(2)
 	assert.True(t, t1.IsDisjoint(t2))
-	assert.False(t, t2.IsDisjoint(t1))
+	t2.Add(2)
+	assert.False(t, t1.IsDisjoint(t2))
 }
 
 // BenchmarkSet benchmarks the set data structure.
