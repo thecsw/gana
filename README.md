@@ -1,5 +1,7 @@
 # gana
 
+[![Coverage Status](https://coveralls.io/repos/github/thecsw/gana/badge.svg?branch=main)](https://coveralls.io/github/thecsw/gana?branch=main)
+
 gana is a special small library for generifying golang code. Written in close 
 collaboration with [Matthew Sanetra](https://github.com/matthewsanetra).
 
